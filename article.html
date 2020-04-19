@@ -1,0 +1,77 @@
+<div data-role="content" id="articleDisplayContent" class="boxShadow" data-theme="a"
+     style="padding:0;overflow-y: auto;-webkit-overflow-scrolling: touch;display: none;z-index: 1;">
+
+    {% if article %}
+
+    <div style="padding: 12px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="font-size: .7em;padding:0px;">{{ channel.title }} / {{ feed.title }}</td>
+                <td style="font-size: .7em;text-align: right;padding:0px;">{{ dateDisplay }}</td>
+                <!--<td style="font-size: .7em;">Mayfair Blog - 14 minutes ago<br>Michael Emmett</td>-->
+                <!--<td style="font-size: .7em;text-align: right;">10 <i class="icon-thumbs-up jnx-list-icon" style="margin-right:0px;"></i><br>5 comments</td>-->
+            </tr>
+        </table>
+
+        {% if article.flags.indexOf('noTitle') < 0 %}
+        <h3 style="margin:4px 0px 0px 0px;">{{ article.title }}</h3>
+        {% endif %}
+
+        <table style="width: 100%;">
+            <tr>
+                {% if !feed.hideAuthor %}
+                <td style="font-size: .7em;padding:0px;">{{ article._author }}</td>
+                {% endif %}
+                <td style="font-size: .7em;text-align: right;padding:0px;"><span class="jnx-extra-text" id="dynamic-text"></span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="markdown-body" style="padding: 12px;">
+        {% if extraData.image %}
+        <img src="{{ extraData.image }}" class="" onload="jnx.page['blog-articleDisplay'].imgLoaded(this)" style="">
+        {% endif %}
+        <p style="margin-bottom: 0;">
+            {{ article.body }}
+        </p>
+        {% if article.rss && !article._isMarkdown %}
+        <a href="{{ article.rss.guid }}">View article on web site</a>
+        {% endif %}
+        {% if category %}
+        <p style="margin:0;clear: both;">{{ category }}</p>
+        {% endif %}
+        {% if status %}
+        <p style="margin:0;clear: both;">{{ status }}</p>
+        {% endif %}
+        {% if rssCodes %}
+        <p style="margin:0;clear: both;">{{ rssCodes }}</p>
+        {% endif %}
+        {% if copyProtect %}
+        <p style="margin:0;">{{ copyProtectText }}</p>
+        {% endif %}
+
+        <div style="height: 50px;">
+        </div>
+    </div>
+
+    {% if channel.enableComments %}
+    <div style="margin: 0 12px;">
+        <button id="comments" @click="showComments($event)" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a"
+                style="background-color: #409EFF;color: #fff;"
+        >
+            {{ article._nComments }} Comments
+        </button>
+        <button id="reply" @click="makeComment($event)" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a"
+                style="background-color: #409EFF;color: #fff;"
+        >
+            Reply
+        </button>
+        <div id="comments-placeholder"></div>
+    </div>
+    {% endif %}
+
+    <div style="margin-bottom: 60px; "></div>
+
+    {% endif %}
+
+</div>

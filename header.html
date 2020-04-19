@@ -1,0 +1,107 @@
+<div style="background-color: #fff;box-shadow: 0 1px 5px 0;">
+
+
+    <div class="hidden-sm-and-up" style="width: 100%;">
+        <div style="height: 65px; display: flex;">
+        <div id="topLogo" class="" style="float: left;position: relative;height: 100%;white-space: nowrap;">
+            <span style="display: inline-block;height:100%;vertical-align: middle;"></span>
+            <img alt="Brand" src="{{ site.logoUrl }}"
+                 style="width: 60px;padding: 0px 6px 0px 6px;height:auto;vertical-align: middle;">
+        </div>
+        <div class="" style="float:right;padding-right:10px;width:95%;display: flex;align-items: center;height: 100%;">
+            <h1 style="margin-top: 0;margin-bottom: 0;float:right;font-size: 18px;">{{ channelDoc.subTitle }}</h1>
+        </div>
+        </div>
+    </div>
+
+    <div class="hidden-xs-only" style="width: 100%;">
+        <div style="height: 78px; display: flex;">
+            <div id="topLogo" class="" style="float: left;position: relative;height: 100%;white-space: nowrap;">
+                <span style="display: inline-block;height:100%;vertical-align: middle;"></span>
+                <img alt="Brand" src="{{ site.logoUrl }}"
+                     style="width: 80px;padding: 0px 6px 0px 6px;height:auto;vertical-align: middle;">
+            </div>
+            <div style="width: 100%;">
+                <div class="" style="float:right;padding-right:20px;display: flex;align-items: center;height: 100%;">
+                    <h1 id="topSubTitle" style="margin-top: 0;margin-bottom: 0;float:right;font-size: 24px;">
+                        {{ channelDoc.subTitle }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="menu" style="">
+        <el-menu
+                ref="headerMenu"
+                :default-active="activeIndex"
+                class="el-menu-demo"
+                mode="horizontal"
+                @select="handleSelect"
+                :background-color="backgroundColor"
+                :text-color="textColor"
+                :active-text-color="activeTextColor">
+            {% for item in b_menu %}
+                {% if item.submenu.length == 0 %}
+                    <el-menu-item index="{{ item.index }}">{{ item.text }}</el-menu-item>
+                {% else %}
+                    <el-submenu index="{{ item.index }}">
+                        <template slot="title">{{ item.text }}</template>
+                        {% for sItem in item.submenu %}
+                            {% if sItem.submenu.length == 0 %}
+                            <el-menu-item index="{{ sItem.index }}">{{ sItem.text }}</el-menu-item>
+                            {% else %}
+                            <el-submenu index="{{ sItem.index }}">
+                                <template slot="title">{{ sItem.text }}</template>
+                                {% for csItem in sItem.submenu %}
+                                    {% if csItem.submenu.length == 0 %}
+                                    <el-menu-item index="{{ csItem.index }}" >{{ csItem.text }}</el-menu-item>
+                                    {% else %}
+                                    <el-submenu index="{{ csItem.index }}">
+                                        <template slot="title">{{ csItem.text }}</template>
+                                        {% for cssItem in csItem.submenu %}
+                                        {% if cssItem.submenu.length == 0 %}
+                                        <el-menu-item index="{{ cssItem.index }}">{{ cssItem.text }}</el-menu-item>
+                                        {% else %}
+                                        <el-submenu index="{{ cssItem.index }}">
+                                            <template slot="title">{{ cssItem.text }}</template>
+                                            {% for ccssItem in cssItem.submenu %}
+                                            <el-menu-item index="{{ ccssItem.index }}" >{{ ccssItem.text }}</el-menu-item>
+                                            {% endfor %}
+                                        </el-submenu>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </el-submenu>
+                                    {% endif %}
+                                {% endfor %}
+                            </el-submenu>
+                            {% endif %}
+                        {% endfor %}
+                    </el-submenu>
+                {% endif %}
+            {% endfor %}
+
+            {% if sessionDoc.userDoc.isGuest %}
+            <el-menu-item index="pop:login" @click="login" style="float:right;">Login/Register</el-menu-item>
+            {% else %}
+            <el-submenu index="99" style="float:right;">
+                <template slot="title">[[ userName ]]</template>
+<!--                <el-menu-item index="99-1" @click="editProfile">My profile</el-menu-item>-->
+                <el-menu-item index="pop:editProfile" @click="editProfile">My profile</el-menu-item>
+                <el-menu-item index="pop:makeSubmission" @click="makeSubmission">Make a submission</el-menu-item>
+                <el-menu-item index="pop:logout" @click="logout">Logout</el-menu-item>
+            </el-submenu>
+            {% endif %}
+
+            <el-submenu index="98" style="float:right;">
+                <template slot="title">App</template>
+                <el-menu-item index="pop:openApp" @click="openApp">Open app in new window</el-menu-item>
+                <el-menu-item index="pop:sendAppInvite" @click="sendAppInvite">Email link to app</el-menu-item>
+            </el-submenu>
+
+        </el-menu>
+        <div class="line"></div>
+    </div>
+
+</div>

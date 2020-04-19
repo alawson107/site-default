@@ -1,0 +1,143 @@
+
+<!--<el-row style="display:flex;">-->
+<el-row class="xs-not-flex">
+
+    {% for section in b_topSections %}
+    <el-col :xs="24" :sm="12" style="padding: 6px;">
+        <section class="boxShadow" data-jnx-feedcat-id="{{ section.id }}" data-jnx-flags="imageAtTop"
+                 style="position:relative;height:100%;display: table;width: 100%;">
+
+            <div style="display: table-row;height:33px;">
+                <div class="grayHeaders" style="padding:6px 6px 6px 12px;color: #fff;text-transform: uppercase;
+                        letter-spacing: .05em;font-weight: 700;font-size: 1.2em;height:33px;">
+                    <span class="slash secColor"> </span>
+                    {{ section.title }}
+                </div>
+            </div>
+
+            <div style="display: table-row;height:100%;">
+                <div style="width: 100%;display:flex;height:100%;padding-top:1px;">
+                    <div style="width: 60%;padding-top: 1px;">
+                        <img src="{{ section.feature.imageUrl }}" style="width: 100%;">
+                        <div data-jnx-article-id="{{ section.feature._id }}" data-jnx-flags="isFeature" style="border: 0 solid #e5e5e5;border-width: 0 1px 0 0;margin: 6px 0 16px 0;position:relative;">
+
+                            <div style="padding:0 6px 6px 6px;">
+                                <a @click="viewArticle" style="color: black;font-size: 1.3em;">{{ section.feature.title }}</a>
+                            </div>
+
+                            <div class="site-body" style="padding:0 6px;text-align:justify;">
+                                {{ section.feature.summary }}
+                            </div>
+
+                            <div style="padding:12px 6px 0px 6px;">
+                                {% if section.feature.author %}
+                                <span class="secColor" style="text-transform: uppercase;">By {{ section.feature.author }}</span>
+                                <span style="color: #9b9b9b;text-transform: uppercase;">{{ section.feature.pubDateS }}</span>
+                                {% else %}
+                                <span class="secColor" style="text-transform: uppercase;">{{ section.feature.pubDateS }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 40%;padding: 6px;vertical-align: top;display: table;height:100%;">
+
+                        <div style="max-height: 450px;overflow-y:hidden;display: table-row;height:100%;"
+                             @mouseenter="showScroll" @mouseleave="hideScroll"
+                        >
+                            {% for item in section.items %}
+                            <div data-jnx-article-id="{{ item._id }}" style="position:relative;">
+                                <div style="padding:0 6px 6px 6px;">
+                                    <a @click="viewArticle" style="color: black;font-size: 1.3em;">{{ item.title }}</a>
+                                </div>
+                                <div style="padding:0px 6px 0px 6px;margin-bottom: 16px;">
+                                    <span class="secColor" style="text-transform: uppercase;">
+                                        {% if item.author %}
+                                        By {{ item.author }}
+                                        {% else %}
+                                        {{ item.pubDateS }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div style="display:flex;margin-top:12px;padding: 0 6px;">
+                            <a class="secColorBg" @click="viewAll"
+                               style="text-transform: uppercase;color: #fff;padding: .5em 1em;width: 100%;text-align: center;">
+                                View all in {{ section.title }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </el-col>
+    {% endfor %}
+
+</el-row>
+
+
+{% for section in b_sections %}
+
+    {% if section.rowStart %}
+    <el-row style="height:100%;display: flex;">
+    {% endif %}
+
+        <el-col :xs="12" :sm="6" style="padding: 6px;">
+        <section class="boxShadow" data-jnx-feedcat-id="{{ section.id }}"
+                 style="padding-bottom:6px;height:100%;width: 100%;display: table;flex-direction: column;position:relative;">
+            <div style="display: table-row;height: 100%;">
+                <div class="grayHeaders" style="padding:6px 6px 6px 12px;color: #fff;text-transform: uppercase;
+                    letter-spacing: .05em;font-weight: 700;font-size: 1.2em;height: 33px;">
+                    <span class="slash secColor"> </span>
+                    {{ section.title }}
+                </div>
+
+                {% for item in section.items %}
+
+                {% if loop.first && item.imageUrl %}
+                <img src="{{ item.imageUrl }}" style="width: 100%;padding-top:1px;">
+                {% endif %}
+                {% if loop.first %}
+                <div style="padding-top: 6px;">
+                {% endif %}
+
+                <div data-jnx-article-id="{{ item._id }}" style="position:relative;">
+                    <div style="padding:0 6px 6px 6px;">
+                        <a @click="viewArticle" style="color: black;font-size: 1.3em;">{{ item.title }}</a>
+                    </div>
+
+                    <div style="padding:0px 6px 0px 6px;margin-bottom: 16px;">
+                        <span class="secColor" style="text-transform: uppercase;">
+                            {% if item.author %}
+                            By {{ item.author }}
+                            {% else %}
+                            {{ item.pubDateS }}
+                            {% endif %}
+                        </span>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+                </div>
+            </div>
+
+            <div style="display:flex;padding: 0 6px;">
+                <a class="secColorBg" @click="viewAll"
+                   style="text-transform: uppercase;color: #fff;padding: .5em 1em;width: 100%;text-align: center;">
+                    View all in  {{ section.title }}
+                </a>
+            </div>
+
+        </section>
+    </el-col>
+
+    {% if section.rowEnd %}
+    </el-row>
+    {% endif %}
+
+
+{% endfor %}
+

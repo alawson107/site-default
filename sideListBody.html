@@ -1,0 +1,53 @@
+{% for section in b_sections %}
+
+<section class="boxShadow" data-jnx-feedcat-id="{{ section.id }}" style="padding:6px;display:
+    flex;flex-direction: column;position:relative;">
+
+    <div style="flex-grow: 1;">
+        <div class="grayHeaders" style="padding:6px 6px 6px 12px;color: #fff;text-transform: uppercase;
+        letter-spacing: .05em;font-weight: 700;font-size: 1.2em;">
+            <span class="slash secColor"> </span>
+            {{ section.title }}
+        </div>
+
+        <div @click="viewArticle" data-jnx-article-id="{{ section.feature._id }}" data-jnx-flags="isFeature"
+             style="margin: 6px 0 0 0;position:relative;overflow: hidden;">
+
+            <div style="padding:0 6px 6px 6px;">
+                <a style="color: black;font-size: 1.3em;">{{ section.feature.title }}</a>
+            </div>
+
+            <div >
+                <img src="{{ section.feature.imageUrl }}" style="max-width: 120px; max-height: 120px; float: left; margin-right:6px;">
+            </div>
+
+            <div class="site-body" style="padding:0 6px;text-align:justify;">
+                {{ section.feature.summary }}
+            </div>
+
+        </div>
+
+        {% for item in section.items %}
+        <div  @click="viewArticle" data-jnx-article-id="{{ item._id }}" style="margin-top: 12px;position:relative;clear: both;overflow: hidden;">
+            {% if item.imageUrl %}
+            <img src="{{ item.imageUrl }}" style="max-width: 120px; max-height: 120px; float: left; margin-right:6px;">
+            {% endif %}
+
+            <div style="position:relative;">
+                <div style="padding:0 6px 6px 6px;">
+                    <a style="color: black;font-size: 1.3em;line-height: 1;">{{ item.title }}</a>
+                </div>
+
+                <div class="site-body" style="padding:0 6px;text-align:justify;">
+                    {{ item.summary }}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</section>
+
+{% endfor %}
